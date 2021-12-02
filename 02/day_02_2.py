@@ -55,7 +55,7 @@ def read_instructions() -> List[Instruction]:
         lines = f.readlines()
         return list(map(parse_instruction, lines))
 
-def parse_instruction(instruction) -> Instruction:
+def parse_instruction(instruction: str) -> Instruction:
     direction, value = instruction.split()
     direction = Direction[direction.upper()]
     value = int(value)
