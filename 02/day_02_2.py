@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from enum import Enum
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 def main():
     instructions = read_instructions()
@@ -50,12 +50,12 @@ class Submarine:
         self.aim -= value
 
 
-def read_instructions():
+def read_instructions() -> List[Instruction]:
     with open('input.txt') as f:
         lines = f.readlines()
-        return map(parse_instruction, lines)
+        return list(map(parse_instruction, lines))
 
-def parse_instruction(instruction):
+def parse_instruction(instruction) -> Instruction:
     direction, value = instruction.split()
     direction = Direction[direction.upper()]
     value = int(value)
