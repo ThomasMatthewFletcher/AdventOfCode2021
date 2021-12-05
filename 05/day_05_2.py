@@ -1,12 +1,32 @@
 #!/usr/bin/env python3
-from typing import NamedTuple, List, Optional, DefaultDict
+from __future__ import annotations
+from typing import List, Optional, DefaultDict
 from collections import defaultdict
 import re
 
 
-class Point(NamedTuple):
-    x: int
-    y: int
+class Point:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other: Point) -> Point:
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: Point) -> Point:
+        return Point(self.x - other.x, self.y - other.y)
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, self.__class__):
+            return self.x == other.x and self.y == other.y
+        else:
+            return False
+
+    def __str__(self) -> str:
+        return f'{self.x},{self.y}'
 
 
 class Line:
@@ -18,33 +38,29 @@ class Line:
         current_point = self.p1
         points = [current_point]
 
-        diff_x = self.p2.x - self.p1.x
-        diff_y = self.p2.y - self.p1.y
+        diff = self.p2 - self.p1
 
-        if diff_x > 0:
-            dx = 1
-        elif diff_x < 0:
-            dx = -1
-        else:
-            dx = 0
+        dx = Line._get_direction(diff.x)
+        dy = Line._get_direction(diff.y)
 
-        if diff_y > 0:
-            dy = 1
-        elif diff_y < 0:
-            dy = -1
-        else:
-            dy = 0
+        delta = Point(dx, dy)
 
         while current_point != self.p2:
-            next_x = current_point.x + dx
-            next_y = current_point.y + dy
-            current_point = Point(next_x, next_y)
+            current_point += delta
             points.append(current_point)
 
         return points
 
+    @staticmethod
+    def _get_direction(diff: int) -> int:
+        if diff > 0:
+            return 1
+        if diff < 0:
+            return -1
+        return 0
+
     def __str__(self):
-        return f'{self.p1.x},{self.p1.y} -> {self.p2.x},{self.p2.y}'
+        return f'{self.p1} -> {self.p2}'
 
 
 class Map:
