@@ -2,13 +2,14 @@
 from __future__ import annotations
 from typing import List, Optional, DefaultDict
 from collections import defaultdict
+from dataclasses import dataclass
 import re
 
 
+@dataclass(frozen=True)
 class Point:
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
+    x: int
+    y: int
 
     def __add__(self, other: Point) -> Point:
         return Point(self.x + other.x, self.y + other.y)
@@ -16,23 +17,14 @@ class Point:
     def __sub__(self, other: Point) -> Point:
         return Point(self.x - other.x, self.y - other.y)
 
-    def __hash__(self) -> int:
-        return hash((self.x, self.y))
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, self.__class__):
-            return self.x == other.x and self.y == other.y
-        else:
-            return False
-
     def __str__(self) -> str:
         return f'{self.x},{self.y}'
 
 
+@dataclass
 class Line:
-    def __init__(self, p1: Point, p2: Point):
-        self.p1 = p1
-        self.p2 = p2
+    p1: Point
+    p2: Point
 
     def get_points(self) -> List[Point]:
         current_point = self.p1
