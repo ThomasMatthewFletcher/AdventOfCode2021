@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from dataclasses import dataclass
 from typing import Set, List, Optional, Callable
 
 Config = Set[str]
