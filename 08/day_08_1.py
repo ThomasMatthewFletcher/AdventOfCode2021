@@ -2,20 +2,22 @@
 from dataclasses import dataclass
 from typing import List
 
+DIGIT_LENGTHS = [2, 3, 4, 7]
+
 @dataclass
 class Display:
     configurations: List[str]
     outputs: List[str]
 
+    def count_digits_with_lengths(self):
+        output_lengths = [len(o) for o in self.outputs]
+        return sum([1 for l in output_lengths if l in DIGIT_LENGTHS])
+
+
 def main():
     displays = read_displays()
 
-    total_selected_digits = 0
-
-    for display in displays:
-        output_lengths = [len(o) for o in display.outputs]
-        selected_digits_count = sum([1 for l in output_lengths if l in [2, 3, 4, 7]])
-        total_selected_digits += selected_digits_count
+    total_selected_digits = sum(d.count_digits_with_lengths() for d in displays)
 
     print(f'Answer: {total_selected_digits}')
 
