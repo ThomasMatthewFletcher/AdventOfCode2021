@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from typing import Set, List, Optional, Callable
+from typing import Set, List, Callable
 
 Config = Set[str]
 
@@ -7,25 +7,17 @@ class Display:
     def __init__(self, configs: List[Config], outputs: List[Config]):
         self.outputs = outputs
 
-        self.digit_configs: List[Optional[Config]] = [None] * 10
+        self.digit_configs: List[Config] = [set()] * 10
 
-        config_one = self._find_config(configs, lambda c: len(c) == 2)
-        self.digit_configs[1] = config_one
-
+        self.digit_configs[1] = self._find_config(configs, lambda c: len(c) == 2)
         self.digit_configs[4] = self._find_config(configs, lambda c: len(c) == 4)
         self.digit_configs[7] = self._find_config(configs, lambda c: len(c) == 3)
         self.digit_configs[8] = self._find_config(configs, lambda c: len(c) == 7)
-
-        config_three = self._find_config(configs, lambda c: len(c) == 5 and config_one.issubset(c))
-        self.digit_configs[3] = config_three
-
-        self.digit_configs[9] = self._find_config(configs, lambda c: len(c) == 6 and config_three.issubset(c))
-
-        self.digit_configs[0] = self._find_config(configs, lambda c: len(c) == 6 and config_one.issubset(c))
-        config_six = self._find_config(configs, lambda c: len(c) == 6)
-        self.digit_configs[6] = config_six
-
-        self.digit_configs[5] = self._find_config(configs, lambda c: len(c) == 5 and c.issubset(config_six))
+        self.digit_configs[3] = self._find_config(configs, lambda c: len(c) == 5 and self.digit_configs[1].issubset(c))
+        self.digit_configs[9] = self._find_config(configs, lambda c: len(c) == 6 and self.digit_configs[3].issubset(c))
+        self.digit_configs[0] = self._find_config(configs, lambda c: len(c) == 6 and self.digit_configs[1].issubset(c))
+        self.digit_configs[6] = self._find_config(configs, lambda c: len(c) == 6)
+        self.digit_configs[5] = self._find_config(configs, lambda c: len(c) == 5 and c.issubset(self.digit_configs[6]))
         self.digit_configs[2] = self._find_config(configs, lambda c: len(c) == 5)
 
     def _find_config(self, configs: List[Config], func: Callable[[Config], bool]) -> Config:
