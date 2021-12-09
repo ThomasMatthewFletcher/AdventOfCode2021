@@ -22,9 +22,10 @@ class Map:
         for y in range(self.height):
             line: List[str] = []
             for x in range(self.width):
-                height = str(self.map[y][x])
+                point = Point(x, y)
+                height = str(self.get_height(point))
 
-                if self.is_low_point(x, y):
+                if self.is_low_point(point):
                     height = f"\033[1m{height}\033[0m"
 
                 line.append(height)
