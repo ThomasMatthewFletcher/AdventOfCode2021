@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from typing import Set, List, Dict, Tuple, NamedTuple, Optional
+from typing import List, Dict, Tuple, NamedTuple, Optional
 from queue import PriorityQueue
 
 class Point(NamedTuple):
