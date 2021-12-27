@@ -3,6 +3,17 @@ from __future__ import annotations
 from typing import List, NamedTuple, Optional, Union, Literal, Dict
 from dataclasses import dataclass
 
+# MONAD RULES #
+
+# i2 - 7 == i3
+# i1 - 5 == i4
+# i6 + 1 == i7
+# i8 + 5 == i9
+# i10 == i11
+# i5 - 3 == i12
+# i0 + 6 == i13
+
+
 class Instruction(NamedTuple):
     op: str
     v1: str
